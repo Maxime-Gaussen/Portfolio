@@ -65,14 +65,14 @@
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("github-projects");
   container.innerHTML = "<p>Chargement des projets...</p>";
-  fetch("[api.github.com](https://api.github.com/users/Maxime-Gaussen/repos)")
+  fetch("[api.github.com](https://api.github.com/users/maxime-gaussen/repos)")
     .then(response => {
       if (!response.ok) throw new Error("Erreur API GitHub");
       return response.json();
     })
     .then(repos => {
-      container.innerHTML = ""; // vide le texte "Chargement..."
-      if (!repos.length) {
+      container.innerHTML = "";
+      if (repos.length === 0) {
         container.innerHTML = "<p>Aucun projet trouvé.</p>";
         return;
       }
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
           div.className = "project-card";
           div.innerHTML = `
             <h4>📁 ${repo.name}</h4>
-            <p>${repo.description ?? "Pas de description disponible."}</p>
+            <p>${repo.description || "Pas de description disponible."}</p>
             <a href="${repo.html_url}" target="_blank">Voir sur GitHub</a>
           `;
           container.appendChild(div);
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(error => {
       console.error(error);
-      container.innerHTML = "<p>Une erreur est survenue lors du chargement 😕</p>";
+      container.innerHTML = "<p>Erreur de chargement des projets 😕</p>";
     });
 });
 </script>
