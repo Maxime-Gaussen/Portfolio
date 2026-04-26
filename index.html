@@ -64,7 +64,7 @@
     <p>© 2026 Maxime Gaussen | Portfolio personnel</p>
   </footer>
 <script>
-fetch("[cors-anywhere.herokuapp.com](https://cors-anywhere.herokuapp.com/https://api.github.com/users/Maxime-Gaussen/repos)")
+fetch("https://api.github.com/users/Maxime-Gaussen/repos")
   .then(response => {
     if (!response.ok) throw new Error("Erreur API GitHub : " + response.status);
     return response.json();
