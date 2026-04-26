@@ -38,13 +38,12 @@
   <div id="github-projects" class="projects-grid"></div>
 </section>
 <script>
-  // Récupère tes dépôts GitHub publics
   fetch("[api.github.com](https://api.github.com/users/maximegaussen34160-debug/repos)")
     .then(response => response.json())
     .then(repos => {
       const container = document.getElementById("github-projects");
       repos
-        .sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at)) // trie par activité récente
+        .sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at)) 
         .forEach(repo => {
           const div = document.createElement("div");
           div.className = "project-card";
