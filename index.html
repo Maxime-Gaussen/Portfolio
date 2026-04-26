@@ -33,21 +33,35 @@
       </ul>
     </section>
     <section id="projects">
-      <h3>Projets</h3>
-      <p>Voici quelques projets que j’ai développés. Retrouvez l’ensemble sur mon profil GitHub.</p>
-      <div class="projects-grid">
-        <div class="project-card">
-          <h4>📱 Application caméra - VOGO</h4>
-          <p>Développement en Python pour la gestion et le contrôle de caméras fixes.</p>
-          <a href="[github.com](https://github.com/maximegaussen34160-debug)" target="_blank">Voir sur GitHub</a>
-        </div>
-        <div class="project-card">
-          <h4>🌐 Application web IA School</h4>
-          <p>Projet scolaire utilisant Node.js et React pour la conception d’un outil web intelligent.</p>
-          <a href="[github.com](https://github.com/maximegaussen34160-debug)" target="_blank">Voir sur GitHub</a>
-        </div>
-      </div>
-    </section>
+  <h3>Mes projets GitHub</h3>
+  <p>Voici tous mes dépôts publics disponibles sur mon GitHub.</p>
+  <div id="github-projects" class="projects-grid"></div>
+</section>
+<script>
+  // Récupère tes dépôts GitHub publics
+  fetch("[api.github.com](https://api.github.com/users/maximegaussen34160-debug/repos)")
+    .then(response => response.json())
+    .then(repos => {
+      const container = document.getElementById("github-projects");
+      repos
+        .sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at)) // trie par activité récente
+        .forEach(repo => {
+          const div = document.createElement("div");
+          div.className = "project-card";
+          div.innerHTML = `
+            <h4>📁 ${repo.name}</h4>
+            <p>${repo.description ? repo.description : "Pas de description disponible."}</p>
+            <a href="${repo.html_url}" target="_blank">Voir sur GitHub</a>
+          `;
+          container.appendChild(div);
+        });
+    })
+    .catch(error => {
+      document.getElementById("github-projects").innerHTML = 
+        "<p>Impossible de charger les projets. 😕</p>";
+      console.error(error);
+    });
+</script>
     <section id="experience">
       <h3>Expériences professionnelles</h3>
       <ul>
