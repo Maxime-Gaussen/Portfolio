@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio – Maxime Gaussen</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="images/photo.jpg">
 </head>
 <body>
   <header>
@@ -26,10 +27,10 @@
     <section id="skills">
       <h3>Compétences techniques</h3>
       <ul>
-        <li>Langages : Python, PHP, HTML, CSS, JavaScript, TypeScript, Java, SQL</li>
-        <li>Frameworks : Angular, React, Node.js, jQuery, Android</li>
+        <li>Langages : Python, PHP, HTML, CSS, JavaScript, TypeScript, Java, SQL</li>
+        <li>Frameworks : Angular, React, Node.js, jQuery, Android</li>
         <li>Base de données, architecture, maintenance applicative</li>
-        <li>Langues : Anglais (B1), Espagnol (A1)</li>
+        <li>Langues : Anglais (B1), Espagnol (A1)</li>
       </ul>
     </section>
     <section id="projects">
@@ -40,17 +41,17 @@
     <section id="experience">
       <h3>Expériences professionnelles</h3>
       <ul>
-        <li><strong>Alternance – VOGO (2021 – 2022)</strong><br>Développement d’applications Python pour caméras, gestion BDD.</li>
-        <li><strong>Stages – France 3, TV SUD, Sanofi</strong><br>Maintenance informatique et montage vidéo.</li>
-        <li><strong>Bénévolat – Corus Montpellier</strong><br>Engagement associatif local.</li>
+        <li><strong>Alternance – VOGO (2021 – 2022)</strong><br>Développement d’applications Python pour caméras, gestion BDD</li>
+        <li><strong>Stages – France 3, TV SUD, Sanofi</strong><br>Maintenance informatique et montage vidéo</li>
+        <li><strong>Bénévolat – Corus Montpellier</strong><br>Engagement associatif local</li>
       </ul>
     </section>
     <section id="education">
       <h3>Formations</h3>
       <ul>
         <li><strong>Bachelor Développement Web</strong> – MediaSchool Montpellier (en cours)</li>
-        <li><strong>Licence Concepteur Développeur d’Applications IA</strong> – IA School / IBM (2020 – 2022)</li>
-        <li><strong>Bac Pro Systèmes Électroniques Numériques</strong> – Lycée Champollion (2015)</li>
+        <li><strong>Licence Concepteur Développeur d’Applications IA</strong> – IA School / IBM (2020 – 2022)</li>
+        <li><strong>Bac Pro Systèmes Électroniques Numériques</strong> – Lycée Champollion (2015)</li>
       </ul>
     </section>
     <section id="interests">
@@ -61,43 +62,40 @@
   <footer>
     <p>© 2026 Maxime Gaussen | Portfolio personnel</p>
   </footer>
- <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("github-projects");
-  container.innerHTML = "<p>Chargement des projets...</p>";
-
- 
-  fetch("[api.github.com](https://api.github.com/users/Maxime-Gaussen/repos)", { mode: "cors" })
-    .then(response => {
-      if (!response.ok) throw new Error("Erreur API GitHub : " + response.status);
-      return response.json();
-    })
-    .then(repos => {
-      container.innerHTML = "";
-      if (!repos.length) {
-        container.innerHTML = "<p>Aucun projet trouvé.</p>";
-        return;
-      }
-
-      repos
-        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-        .forEach(repo => {
-          const div = document.createElement("div");
-          div.className = "project-card";
-          div.innerHTML = `
-            <h4>📁 ${repo.name}</h4>
-            <p>${repo.description || "Pas de description disponible."}</p>
-            <a href="${repo.html_url}" target="_blank">Voir sur GitHub</a>
-          `;
-          container.appendChild(div);
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("github-projects");
+      container.innerHTML = "<p>Chargement des projets...</p>";
+      // ✅ URL absolue et mode CORS
+      fetch("[api.github.com](https://api.github.com/users/Maxime-Gaussen/repos)", { mode: "cors" })
+        .then(response => {
+          if (!response.ok) throw new Error("Erreur API GitHub : " + response.status);
+          return response.json();
+        })
+        .then(repos => {
+          container.innerHTML = "";
+          if (!repos.length) {
+            container.innerHTML = "<p>Aucun projet trouvé.</p>";
+            return;
+          }
+          repos
+            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+            .forEach(repo => {
+              const div = document.createElement("div");
+              div.className = "project-card";
+              div.innerHTML = `
+                <h4>📁 ${repo.name}</h4>
+                <p>${repo.description || "Pas de description disponible."}</p>
+                <a href="${repo.html_url}" target="_blank">Voir sur GitHub</a>
+              `;
+              container.appendChild(div);
+            });
+        })
+        .catch(error => {
+          console.error("Erreur GitHub :", error);
+          container.innerHTML = "<p>Impossible de charger les projets 😕</p>";
         });
-    })
-    .catch(error => {
-      console.error("Erreur GitHub :", error);
-      container.innerHTML = "<p>Impossible de charger les projets 😕</p>";
     });
-});
-</script>
-
+  </script>
 </body>
 </html>
