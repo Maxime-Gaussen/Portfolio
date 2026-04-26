@@ -61,40 +61,43 @@
   <footer>
     <p>© 2026 Maxime Gaussen | Portfolio personnel</p>
   </footer>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const container = document.getElementById("github-projects");
-      container.innerHTML = "<p>Chargement des projets...</p>";
-      // ✅ appel GitHub API correct (sans crochets Markdown)
-      fetch("[api.github.com](https://api.github.com/users/Maxime-Gaussen/repos)")
-        .then(response => {
-          if (!response.ok) throw new Error("Erreur API GitHub");
-          return response.json();
-        })
-        .then(repos => {
-          container.innerHTML = "";
-          if (repos.length === 0) {
-            container.innerHTML = "<p>Aucun projet trouvé.</p>";
-            return;
-          }
-          repos
-            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-            .forEach(repo => {
-              const div = document.createElement("div");
-              div.className = "project-card";
-              div.innerHTML = `
-                <h4>📁 ${repo.name}</h4>
-                <p>${repo.description || "Pas de description disponible."}</p>
-                <a href="${repo.html_url}" target="_blank">Voir sur GitHub</a>
-              `;
-              container.appendChild(div);
-            });
-        })
-        .catch(error => {
-          console.error(error);
-          container.innerHTML = "<p>Erreur de chargement des projets 😕</p>";
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("github-projects");
+  container.innerHTML = "<p>Chargement des projets...</p>";
+
+ 
+  fetch("[api.github.com](https://api.github.com/users/Maxime-Gaussen/repos)", { mode: "cors" })
+    .then(response => {
+      if (!response.ok) throw new Error("Erreur API GitHub : " + response.status);
+      return response.json();
+    })
+    .then(repos => {
+      container.innerHTML = "";
+      if (!repos.length) {
+        container.innerHTML = "<p>Aucun projet trouvé.</p>";
+        return;
+      }
+
+      repos
+        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+        .forEach(repo => {
+          const div = document.createElement("div");
+          div.className = "project-card";
+          div.innerHTML = `
+            <h4>📁 ${repo.name}</h4>
+            <p>${repo.description || "Pas de description disponible."}</p>
+            <a href="${repo.html_url}" target="_blank">Voir sur GitHub</a>
+          `;
+          container.appendChild(div);
         });
+    })
+    .catch(error => {
+      console.error("Erreur GitHub :", error);
+      container.innerHTML = "<p>Impossible de charger les projets 😕</p>";
     });
-  </script>
+});
+</script>
+
 </body>
 </html>
